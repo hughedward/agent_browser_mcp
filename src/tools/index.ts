@@ -23,6 +23,10 @@ import { setToolHandler, setToolDefinition } from './settings/set.js';
 import { pdfToolHandler, pdfToolDefinition } from './export/pdf.js';
 import { networkToolHandler, networkToolDefinition } from './network/network.js';
 import { recordToolHandler, recordToolDefinition } from './recording/record.js';
+import { consoleToolHandler, consoleToolDefinition } from './debug/console.js';
+import { errorsToolHandler, errorsToolDefinition } from './debug/errors.js';
+import { traceToolHandler, traceToolDefinition } from './debug/trace.js';
+import { evaluateToolHandler, evaluateToolDefinition } from './debug/evaluate.js';
 
 /**
  * Register all tools with the MCP server
@@ -56,6 +60,10 @@ export async function registerAllTools(
     browser_pdf: async (args: any) => pdfToolHandler(browserManager, args),
     browser_network: async (args: any) => networkToolHandler(browserManager, args),
     browser_record: async (args: any) => recordToolHandler(browserManager, args),
+    browser_console: async (args: any) => consoleToolHandler(browserManager, args),
+    browser_errors: async (args: any) => errorsToolHandler(browserManager, args),
+    browser_trace: async (args: any) => traceToolHandler(browserManager, args),
+    browser_evaluate: async (args: any) => evaluateToolHandler(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -98,6 +106,10 @@ export async function registerAllTools(
     pdfToolDefinition,
     networkToolDefinition,
     recordToolDefinition,
+    consoleToolDefinition,
+    errorsToolDefinition,
+    traceToolDefinition,
+    evaluateToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -123,5 +135,9 @@ export async function registerAllTools(
   console.error(`  ✓ ${pdfToolDefinition.name}`);
   console.error(`  ✓ ${networkToolDefinition.name}`);
   console.error(`  ✓ ${recordToolDefinition.name}`);
+  console.error(`  ✓ ${consoleToolDefinition.name}`);
+  console.error(`  ✓ ${errorsToolDefinition.name}`);
+  console.error(`  ✓ ${traceToolDefinition.name}`);
+  console.error(`  ✓ ${evaluateToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
