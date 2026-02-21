@@ -22,6 +22,7 @@ import { windowTool, windowToolDefinition } from './tabs/window.js';
 import { setToolHandler, setToolDefinition } from './settings/set.js';
 import { pdfToolHandler, pdfToolDefinition } from './export/pdf.js';
 import { networkToolHandler, networkToolDefinition } from './network/network.js';
+import { recordToolHandler, recordToolDefinition } from './recording/record.js';
 
 /**
  * Register all tools with the MCP server
@@ -54,6 +55,7 @@ export async function registerAllTools(
     browser_set: async (args: any) => setToolHandler(browserManager, args),
     browser_pdf: async (args: any) => pdfToolHandler(browserManager, args),
     browser_network: async (args: any) => networkToolHandler(browserManager, args),
+    browser_record: async (args: any) => recordToolHandler(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -95,6 +97,7 @@ export async function registerAllTools(
     setToolDefinition,
     pdfToolDefinition,
     networkToolDefinition,
+    recordToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -119,5 +122,6 @@ export async function registerAllTools(
   console.error(`  ✓ ${setToolDefinition.name}`);
   console.error(`  ✓ ${pdfToolDefinition.name}`);
   console.error(`  ✓ ${networkToolDefinition.name}`);
+  console.error(`  ✓ ${recordToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
