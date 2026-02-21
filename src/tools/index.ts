@@ -17,6 +17,8 @@ import { isToolHandler, isToolDefinition } from './info/is.js';
 import { cookiesToolHandler, cookiesToolDefinition } from './storage/cookies.js';
 import { storageToolHandler, storageToolDefinition } from './storage/storage.js';
 import { stateToolHandler, stateToolDefinition } from './state/state.js';
+import { tabTool, tabToolDefinition } from './tabs/tab.js';
+import { windowTool, windowToolDefinition } from './tabs/window.js';
 
 /**
  * Register all tools with the MCP server
@@ -44,6 +46,8 @@ export async function registerAllTools(
     browser_cookies: async (args: any) => cookiesToolHandler(browserManager, args),
     browser_storage: async (args: any) => storageToolHandler(browserManager, args),
     browser_state: async (args: any) => stateToolHandler(browserManager, args),
+    browser_tab: async (args: any) => tabTool(browserManager, args),
+    browser_window: async (args: any) => windowTool(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -80,6 +84,8 @@ export async function registerAllTools(
     cookiesToolDefinition,
     storageToolDefinition,
     stateToolDefinition,
+    tabToolDefinition,
+    windowToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -99,5 +105,7 @@ export async function registerAllTools(
   console.error(`  ✓ ${cookiesToolDefinition.name}`);
   console.error(`  ✓ ${storageToolDefinition.name}`);
   console.error(`  ✓ ${stateToolDefinition.name}`);
+  console.error(`  ✓ ${tabToolDefinition.name}`);
+  console.error(`  ✓ ${windowToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
