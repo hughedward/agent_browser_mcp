@@ -19,6 +19,8 @@ import { storageToolHandler, storageToolDefinition } from './storage/storage.js'
 import { stateToolHandler, stateToolDefinition } from './state/state.js';
 import { tabTool, tabToolDefinition } from './tabs/tab.js';
 import { windowTool, windowToolDefinition } from './tabs/window.js';
+import { setToolHandler, setToolDefinition } from './settings/set.js';
+import { pdfToolHandler, pdfToolDefinition } from './export/pdf.js';
 
 /**
  * Register all tools with the MCP server
@@ -48,6 +50,8 @@ export async function registerAllTools(
     browser_state: async (args: any) => stateToolHandler(browserManager, args),
     browser_tab: async (args: any) => tabTool(browserManager, args),
     browser_window: async (args: any) => windowTool(browserManager, args),
+    browser_set: async (args: any) => setToolHandler(browserManager, args),
+    browser_pdf: async (args: any) => pdfToolHandler(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -86,6 +90,8 @@ export async function registerAllTools(
     stateToolDefinition,
     tabToolDefinition,
     windowToolDefinition,
+    setToolDefinition,
+    pdfToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -107,5 +113,7 @@ export async function registerAllTools(
   console.error(`  ✓ ${stateToolDefinition.name}`);
   console.error(`  ✓ ${tabToolDefinition.name}`);
   console.error(`  ✓ ${windowToolDefinition.name}`);
+  console.error(`  ✓ ${setToolDefinition.name}`);
+  console.error(`  ✓ ${pdfToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
