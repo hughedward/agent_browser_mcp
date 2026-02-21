@@ -14,6 +14,9 @@ import { waitTool, waitToolDefinition } from './wait/wait.js';
 import { findToolHandler, findToolDefinition } from './finder/find.js';
 import { getToolHandler, getToolDefinition } from './info/get.js';
 import { isToolHandler, isToolDefinition } from './info/is.js';
+import { cookiesToolHandler, cookiesToolDefinition } from './storage/cookies.js';
+import { storageToolHandler, storageToolDefinition } from './storage/storage.js';
+import { stateToolHandler, stateToolDefinition } from './state/state.js';
 
 /**
  * Register all tools with the MCP server
@@ -38,6 +41,9 @@ export async function registerAllTools(
     browser_find: async (args: any) => findToolHandler(browserManager, args),
     browser_get: async (args: any) => getToolHandler(browserManager, args),
     browser_is: async (args: any) => isToolHandler(browserManager, args),
+    browser_cookies: async (args: any) => cookiesToolHandler(browserManager, args),
+    browser_storage: async (args: any) => storageToolHandler(browserManager, args),
+    browser_state: async (args: any) => stateToolHandler(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -71,6 +77,9 @@ export async function registerAllTools(
     findToolDefinition,
     getToolDefinition,
     isToolDefinition,
+    cookiesToolDefinition,
+    storageToolDefinition,
+    stateToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -87,5 +96,8 @@ export async function registerAllTools(
   console.error(`  ✓ ${findToolDefinition.name}`);
   console.error(`  ✓ ${getToolDefinition.name}`);
   console.error(`  ✓ ${isToolDefinition.name}`);
+  console.error(`  ✓ ${cookiesToolDefinition.name}`);
+  console.error(`  ✓ ${storageToolDefinition.name}`);
+  console.error(`  ✓ ${stateToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
