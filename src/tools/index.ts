@@ -3,8 +3,14 @@ import { BrowserManager } from '../browser/manager.js';
 import { fillTool, fillToolDefinition } from './interaction/fill.js';
 import { typeTool, typeToolDefinition } from './interaction/type.js';
 import { clickTool } from './interaction/click.js';
+import { hoverTool } from './interaction/hover.js';
+import { scrollTool } from './interaction/scroll.js';
+import { pressTool } from './interaction/press.js';
 import { navigateTool, navigateToolDefinition } from './navigation/navigate.js';
+import { closeTool, closeToolDefinition } from './navigation/close.js';
 import { snapshotTool, handleSnapshot } from './discovery/snapshot.js';
+import { screenshotTool, screenshotToolDefinition } from './discovery/screenshot.js';
+import { waitTool, waitToolDefinition } from './wait/wait.js';
 
 /**
  * Register all tools with the MCP server
@@ -20,6 +26,12 @@ export async function registerAllTools(
     browser_fill: async (args: any) => fillTool(browserManager, args),
     browser_type: async (args: any) => typeTool(browserManager, args),
     browser_click: async (args: any) => clickTool.handler(args, browserManager),
+    browser_hover: async (args: any) => hoverTool.handler(args, browserManager),
+    browser_scroll: async (args: any) => scrollTool.handler(args, browserManager),
+    browser_press: async (args: any) => pressTool.handler(args, browserManager),
+    browser_screenshot: async (args: any) => screenshotTool(browserManager, args),
+    browser_close: async (args: any) => closeTool(browserManager),
+    browser_wait: async (args: any) => waitTool(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -32,6 +44,24 @@ export async function registerAllTools(
       description: clickTool.description,
       inputSchema: clickTool.inputSchema,
     },
+    {
+      name: hoverTool.name,
+      description: hoverTool.description,
+      inputSchema: hoverTool.inputSchema,
+    },
+    {
+      name: scrollTool.name,
+      description: scrollTool.description,
+      inputSchema: scrollTool.inputSchema,
+    },
+    {
+      name: pressTool.name,
+      description: pressTool.description,
+      inputSchema: pressTool.inputSchema,
+    },
+    screenshotToolDefinition,
+    closeToolDefinition,
+    waitToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -39,5 +69,11 @@ export async function registerAllTools(
   console.error(`  ✓ ${fillToolDefinition.name}`);
   console.error(`  ✓ ${typeToolDefinition.name}`);
   console.error(`  ✓ ${clickTool.name}`);
+  console.error(`  ✓ ${hoverTool.name}`);
+  console.error(`  ✓ ${scrollTool.name}`);
+  console.error(`  ✓ ${pressTool.name}`);
+  console.error(`  ✓ ${screenshotToolDefinition.name}`);
+  console.error(`  ✓ ${closeToolDefinition.name}`);
+  console.error(`  ✓ ${waitToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
