@@ -48,7 +48,8 @@ export class AgentBrowserMCPServer {
               required: ['url'],
             },
           },
-          // More tools will be registered by registerAllTools
+          // Tools registered by registerAllTools
+          ...((this.server as any).__toolDefinitions || []),
         ],
       };
     });
@@ -58,7 +59,14 @@ export class AgentBrowserMCPServer {
       const { name, arguments: args } = request.params;
 
       try {
-        // Tool implementations will be registered by registerAllTools
+        const handlers = (this.server as any).__toolHandlers || {};
+        const handler = handlers[name];
+
+        if (handler) {
+          return await handler(args);
+        }
+
+        // Default response for unhandled tools
         return {
           content: [
             {
