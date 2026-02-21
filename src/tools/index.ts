@@ -1,5 +1,8 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { BrowserManager } from '../browser/manager.js';
+import { fillTool, fillToolDefinition } from './interaction/fill.js';
+import { clickTool } from './interaction/click.js';
+import { navigateTool, navigateToolDefinition } from './navigation/navigate.js';
 
 /**
  * Register all tools with the MCP server
@@ -8,10 +11,25 @@ export async function registerAllTools(
   server: Server,
   browserManager: BrowserManager
 ): Promise<void> {
-  // Navigation tools will be registered here
-  // Interaction tools will be registered here
-  // State management tools will be registered here
-  // etc.
+  // Store tool handlers and definitions for later use
+  (server as any).__toolHandlers = {
+    browser_navigate: async (args: any) => navigateTool(browserManager, args),
+    browser_fill: async (args: any) => fillTool(browserManager, args),
+    browser_click: async (args: any) => clickTool.handler(args, browserManager),
+  };
 
+  (server as any).__toolDefinitions = [
+    navigateToolDefinition,
+    fillToolDefinition,
+    {
+      name: clickTool.name,
+      description: clickTool.description,
+      inputSchema: clickTool.inputSchema,
+    },
+  ];
+
+  console.error(`  ✓ ${navigateToolDefinition.name}`);
+  console.error(`  ✓ ${fillToolDefinition.name}`);
+  console.error(`  ✓ ${clickTool.name}`);
   console.error('All tools registered successfully');
 }
