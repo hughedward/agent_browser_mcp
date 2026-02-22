@@ -43,7 +43,7 @@ import { diffTool, diffToolDefinition } from './advanced/diff.js';
 import { dialogTool, dialogToolDefinition } from './advanced/dialog.js';
 import { frameTool, frameToolDefinition } from './advanced/frame.js';
 import { mouseTool, mouseToolDefinition } from './advanced/mouse.js';
-import { downloadTool, downloadToolDefinition } from './advanced/download.js';
+import { downloadToolHandler, downloadToolDefinition } from './advanced/download.js';
 
 /**
  * Register all tools with the MCP server
@@ -97,7 +97,7 @@ export async function registerAllTools(
     browser_dialog: async (args: any) => dialogTool(browserManager, args),
     browser_frame: async (args: any) => frameTool(browserManager, args),
     browser_mouse: async (args: any) => mouseTool(browserManager, args),
-    browser_download: async (args: any) => downloadTool(browserManager, args),
+    browser_download: async (args: any) => downloadToolHandler(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
