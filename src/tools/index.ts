@@ -27,6 +27,10 @@ import { consoleToolHandler, consoleToolDefinition } from './debug/console.js';
 import { errorsToolHandler, errorsToolDefinition } from './debug/errors.js';
 import { traceToolHandler, traceToolDefinition } from './debug/trace.js';
 import { evaluateToolHandler, evaluateToolDefinition } from './debug/evaluate.js';
+import { diffTool, diffToolDefinition } from './advanced/diff.js';
+import { dialogTool, dialogToolDefinition } from './advanced/dialog.js';
+import { frameTool, frameToolDefinition } from './advanced/frame.js';
+import { mouseTool, mouseToolDefinition } from './advanced/mouse.js';
 
 /**
  * Register all tools with the MCP server
@@ -64,6 +68,10 @@ export async function registerAllTools(
     browser_errors: async (args: any) => errorsToolHandler(browserManager, args),
     browser_trace: async (args: any) => traceToolHandler(browserManager, args),
     browser_evaluate: async (args: any) => evaluateToolHandler(browserManager, args),
+    browser_diff: async (args: any) => diffTool(browserManager, args),
+    browser_dialog: async (args: any) => dialogTool(browserManager, args),
+    browser_frame: async (args: any) => frameTool(browserManager, args),
+    browser_mouse: async (args: any) => mouseTool(browserManager, args),
   };
 
   (server as any).__toolDefinitions = [
@@ -110,6 +118,10 @@ export async function registerAllTools(
     errorsToolDefinition,
     traceToolDefinition,
     evaluateToolDefinition,
+    diffToolDefinition,
+    dialogToolDefinition,
+    frameToolDefinition,
+    mouseToolDefinition,
   ];
 
   console.error(`  ✓ ${snapshotTool.name} (THE CORE TOOL FOR TOKEN OPTIMIZATION)`);
@@ -139,5 +151,9 @@ export async function registerAllTools(
   console.error(`  ✓ ${errorsToolDefinition.name}`);
   console.error(`  ✓ ${traceToolDefinition.name}`);
   console.error(`  ✓ ${evaluateToolDefinition.name}`);
+  console.error(`  ✓ ${diffToolDefinition.name}`);
+  console.error(`  ✓ ${dialogToolDefinition.name}`);
+  console.error(`  ✓ ${frameToolDefinition.name}`);
+  console.error(`  ✓ ${mouseToolDefinition.name}`);
   console.error('All tools registered successfully');
 }
