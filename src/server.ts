@@ -32,25 +32,7 @@ export class AgentBrowserMCPServer {
     // List available tools
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
       return {
-        tools: [
-          // Navigation tools
-          {
-            name: 'browser_navigate',
-            description: 'Navigate to a URL in the browser',
-            inputSchema: {
-              type: 'object',
-              properties: {
-                url: {
-                  type: 'string',
-                  description: 'The URL to navigate to',
-                },
-              },
-              required: ['url'],
-            },
-          },
-          // Tools registered by registerAllTools
-          ...((this.server as any).__toolDefinitions || []),
-        ],
+        tools: (this.server as any).__toolDefinitions || [],
       };
     });
 
@@ -72,7 +54,7 @@ export class AgentBrowserMCPServer {
 
         // Ensure we have at least one page (recover from closed pages)
         if (this.browserManager.isLaunched() && !this.browserManager.hasPages() && name !== 'browser_close') {
-          await (this.browserManager as any).ensurePage();
+          await this.browserManager.ensurePage();
         }
 
         const handlers = (this.server as any).__toolHandlers || {};
@@ -82,14 +64,15 @@ export class AgentBrowserMCPServer {
           return await handler(args);
         }
 
-        // Default response for unhandled tools
+        // Unknown tool name should be surfaced as an error
         return {
           content: [
             {
               type: 'text',
-              text: `Tool ${name} executed with args: ${JSON.stringify(args)}`,
+              text: `Unknown tool: ${name}`,
             },
           ],
+          isError: true,
         };
       } catch (error) {
         return {

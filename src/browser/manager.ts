@@ -97,6 +97,7 @@ export class BrowserManager {
   private refMap: RefMap = {};
   private lastSnapshot: string = '';
   private scopedHeaderRoutes: Map<string, (route: Route) => Promise<void>> = new Map();
+  private lastLaunchOptions: LaunchCommand | null = null;
 
   // CDP session for screencast and input injection
   private cdpSession: CDPSession | null = null;
@@ -1099,6 +1100,8 @@ export class BrowserManager {
    * If already launched, this is a no-op (browser stays open)
    */
   async launch(options: LaunchCommand): Promise<void> {
+    this.lastLaunchOptions = { ...options };
+
     // Determine CDP endpoint: prefer cdpUrl over cdpPort for flexibility
     const cdpEndpoint = options.cdpUrl ?? (options.cdpPort ? String(options.cdpPort) : undefined);
     const hasExtensions = !!options.extensions?.length;
@@ -1719,16 +1722,47 @@ export class BrowserManager {
 
     const page = this.pages[targetIndex];
     await page.close();
-    this.pages.splice(targetIndex, 1);
-
-    // Adjust active index if needed
-    if (this.activePageIndex >= this.pages.length) {
-      this.activePageIndex = this.pages.length - 1;
-    } else if (this.activePageIndex > targetIndex) {
-      this.activePageIndex--;
-    }
 
     return { closed: targetIndex, remaining: this.pages.length };
+  }
+
+  /**
+   * Relaunch the current local browser session with a provided storage state file.
+   * This applies persisted cookies/localStorage by creating a fresh context at launch.
+   */
+  async relaunchWithStorageState(storageStatePath: string): Promise<void> {
+    if (!this.lastLaunchOptions) {
+      throw new Error('Cannot load state: browser has not been launched yet.');
+    }
+
+    const options = { ...this.lastLaunchOptions };
+    const isRemote =
+      !!options.cdpUrl ||
+      !!options.cdpPort ||
+      !!options.autoConnect ||
+      options.provider === 'browserbase' ||
+      options.provider === 'browseruse' ||
+      options.provider === 'kernel';
+
+    if (isRemote) {
+      throw new Error('Loading state is only supported for local launched browsers, not CDP/cloud sessions.');
+    }
+
+    if (options.profile) {
+      throw new Error('Loading state is not supported with profile mode (profile already persists state).');
+    }
+
+    if (options.extensions?.length) {
+      throw new Error('Loading state is not supported with extension mode (persistent context).');
+    }
+
+    await this.close();
+
+    await this.launch({
+      ...options,
+      storageState: storageStatePath,
+      autoStateFilePath: undefined,
+    });
   }
 
   /**

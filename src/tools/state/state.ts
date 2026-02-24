@@ -226,17 +226,16 @@ export async function stateToolHandler(
         throw new Error(`Failed to read state file: ${statePath}`);
       }
 
-      // Note: Loading state requires creating a new context with the state
-      // This is typically done at browser launch time, not mid-session
-      // For now, we'll provide guidance on how to use it
+      await browserManager.relaunchWithStorageState(statePath);
+
       return {
         content: [{
           type: 'text',
           text: JSON.stringify({
             success: true,
-            message: 'State file loaded (summary shown below)',
+            message: 'State loaded and applied by relaunching browser context',
             state: summary,
-            note: 'To apply this state, relaunch the browser with the storageState parameter'
+            path: statePath
           }, null, 2)
         }]
       };

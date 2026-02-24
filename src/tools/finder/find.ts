@@ -8,6 +8,7 @@ import type { Page, Locator } from 'playwright-core';
 interface LocatorInfo {
   type: 'role' | 'text' | 'label' | 'placeholder' | 'alt' | 'title' | 'testid' | 'selector' | 'first' | 'last' | 'nth';
   value: string;
+  roleType?: string;  // For role type: role button "Submit" -> roleType="button", value="Submit"
   nth?: number;
   exact?: boolean;
 }
@@ -24,6 +25,19 @@ function parseLocator(locatorArg: string): LocatorInfo {
     throw new Error(`Locator value missing for type: ${type}`);
   }
 
+  // Special handling for role: role button "Submit" -> roleType="button", value="Submit"
+  if (type === 'role') {
+    const roleParts = value.split(/\s+/);
+    const roleType = roleParts[0];  // e.g., "button"
+    const nameValue = roleParts.slice(1).join(' ');  // e.g., "\"Submit\""
+
+    // Extract name from quotes if present
+    const nameMatch = nameValue.match(/^"(.+)"$/);
+    const name = nameMatch ? nameMatch[1] : nameValue;
+
+    return { type, value: name || '', roleType };
+  }
+
   return { type, value };
 }
 
@@ -36,9 +50,13 @@ function buildLocator(page: Page, info: LocatorInfo): Locator {
   switch (info.type) {
     case 'role':
       // role button "Submit" -> getByRole('button', { name: 'Submit' })
-      const match = info.value.match(/^"(.+)"$/);
-      const name = match ? match[1] : info.value;
-      return page.getByRole(name as any, { exact });
+      // role link -> getByRole('link') (no name filter)
+      // info.roleType = "button", info.value = "Submit" (or empty)
+      const options: { exact?: boolean; name?: string } = { exact };
+      if (info.value) {
+        options.name = info.value;
+      }
+      return page.getByRole(info.roleType as any, options);
 
     case 'text':
       // text "Sign In" -> getByText('Sign In', { exact: true })
