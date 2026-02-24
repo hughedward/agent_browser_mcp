@@ -22,12 +22,11 @@ export function locatorFromRef(
     return page.locator(refData.selector);
   }
 
-  // Build ARIA role-based locator
-  let locator = page.getByRole(refData.role as any);
-
-  if (refData.name) {
-    locator = locator.filter({ hasText: refData.name });
-  }
+  // Build ARIA role-based locator using accessible name semantics.
+  // `hasText` only matches visible text and fails for aria-label-based controls.
+  let locator = refData.name
+    ? page.getByRole(refData.role as any, { name: refData.name, exact: true })
+    : page.getByRole(refData.role as any);
 
   if (refData.nth !== undefined) {
     locator = locator.nth(refData.nth);
