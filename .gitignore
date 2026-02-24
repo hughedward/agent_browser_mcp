@@ -5,3 +5,10 @@ dist/
 .env
 coverage/
 *.tgz
+test/
+tests/
+QUICK_TEST_GUIDE.md
+TEST_PROMPTS.md
+claude-desktop-config.json
+TESTING_GUIDE.md
+.omc/

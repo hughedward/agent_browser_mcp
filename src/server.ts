@@ -59,6 +59,22 @@ export class AgentBrowserMCPServer {
       const { name, arguments: args } = request.params;
 
       try {
+        // Auto-launch browser if needed (before calling any tool)
+        // This mirrors agent-browser daemon's behavior
+        if (!this.browserManager.isLaunched() && name !== 'browser_close') {
+          const headed = process.env.HEADED === 'true';
+          await this.browserManager.launch({
+            action: 'launch',
+            id: 'auto-launch',
+            headless: !headed,
+          });
+        }
+
+        // Ensure we have at least one page (recover from closed pages)
+        if (this.browserManager.isLaunched() && !this.browserManager.hasPages() && name !== 'browser_close') {
+          await (this.browserManager as any).ensurePage();
+        }
+
         const handlers = (this.server as any).__toolHandlers || {};
         const handler = handlers[name];
 
