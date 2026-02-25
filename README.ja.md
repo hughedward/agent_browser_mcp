@@ -22,7 +22,7 @@
 ### npm を使用
 
 ```bash
-npm install agent-browser-mcp
+npm install agent-browser-mcp-server
 ```
 
 ### ソースから
@@ -46,7 +46,7 @@ npm run build
   "mcpServers": {
     "agent-browser": {
       "command": "npx",
-      "args": ["agent-browser-mcp"],
+      "args": ["agent-browser-mcp-server"],
       "env": {
         "HEADED": "false"
       }
@@ -58,7 +58,7 @@ npm run build
 ### スタンドアロン
 
 ```bash
-agent-browser-mcp
+agent-browser-mcp-server
 ```
 
 ## 利用可能なツール

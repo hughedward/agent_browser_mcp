@@ -22,7 +22,7 @@ This project is an independent MCP server implementation that wraps the excellen
 ### Using npm
 
 ```bash
-npm install agent-browser-mcp
+npm install agent-browser-mcp-server
 ```
 
 ### From Source
@@ -46,7 +46,7 @@ npm run build
   "mcpServers": {
     "agent-browser": {
       "command": "npx",
-      "args": ["agent-browser-mcp"],
+      "args": ["agent-browser-mcp-server"],
       "env": {
         "HEADED": "false"
       }
@@ -58,7 +58,7 @@ npm run build
 ### Standalone
 
 ```bash
-agent-browser-mcp
+agent-browser-mcp-server
 ```
 
 ## Available Tools

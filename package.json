@@ -1,11 +1,11 @@
 {
-  "name": "agent-browser-mcp",
+  "name": "agent-browser-mcp-server",
   "version": "0.14.0",
   "description": "MCP server for agent-browser - complete browser automation with token-efficient @ref system",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "agent-browser-mcp": "dist/index.js"
+    "agent-browser-mcp-server": "dist/index.js"
   },
   "files": [
     "dist",
