@@ -1,0 +1,53 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Tests
+test/
+tests/
+*.test.ts
+*.spec.ts
+
+# Development files
+.vitest/
+vitest.config.ts
+tsconfig.json
+
+# Documentation (keep README)
+CLAUDE.md
+TESTING_GUIDE.md
+QUICK_TEST_GUIDE.md
+TEST_PROMPTS.md
+claude-desktop-config.json
+
+# Build artifacts
+*.tgz
+
+# Development configs
+.omc/
+archive/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

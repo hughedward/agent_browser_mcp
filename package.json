@@ -7,12 +7,20 @@
   "bin": {
     "mcp-server-agent-browser": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "test": "vitest",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
@@ -20,10 +28,20 @@
     "browser",
     "automation",
     "playwright",
-    "agent-browser"
+    "agent-browser",
+    "ai",
+    "claude"
   ],
   "author": "",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/agent-browser-mcp.git"
+  },
+  "homepage": "https://github.com/your-org/agent-browser-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/your-org/agent-browser-mcp/issues"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
     "playwright-core": "^1.57.0",
