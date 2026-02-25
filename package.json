@@ -36,11 +36,11 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/agent-browser-mcp.git"
+    "url": "git+https://github.com/hughedward/agent_browser_mcp.git"
   },
-  "homepage": "https://github.com/your-org/agent-browser-mcp#readme",
+  "homepage": "https://github.com/hughedward/agent_browser_mcp#readme",
   "bugs": {
-    "url": "https://github.com/your-org/agent-browser-mcp/issues"
+    "url": "https://github.com/hughedward/agent_browser_mcp/issues"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",

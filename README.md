@@ -28,8 +28,8 @@ npm install agent-browser-mcp-server
 ### From Source
 
 ```bash
-git clone https://github.com/your-org/agent-browser-mcp.git
-cd agent-browser-mcp
+git clone https://github.com/hughedward/agent_browser_mcp.git
+cd agent_browser_mcp
 npm install
 npm run build
 ```
