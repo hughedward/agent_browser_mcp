@@ -44,7 +44,7 @@ npm run build
 ```json
 {
   "mcpServers": {
-    "agent-browser": {
+    "agent-browser-mcp-server": {
       "command": "npx",
       "args": ["agent-browser-mcp-server"],
       "env": {
