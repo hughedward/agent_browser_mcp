@@ -22,7 +22,7 @@
 ### 使用 npm
 
 ```bash
-npm install mcp-server-agent-browser
+npm install agent-browser-mcp
 ```
 
 ### 从源码安装
@@ -46,7 +46,7 @@ npm run build
   "mcpServers": {
     "agent-browser": {
       "command": "npx",
-      "args": ["mcp-server-agent-browser"],
+      "args": ["agent-browser-mcp"],
       "env": {
         "HEADED": "false"
       }
@@ -58,7 +58,7 @@ npm run build
 ### 独立运行
 
 ```bash
-mcp-server-agent-browser
+agent-browser-mcp
 ```
 
 ## 可用工具
